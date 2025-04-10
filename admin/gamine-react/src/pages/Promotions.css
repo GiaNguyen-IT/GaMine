@@ -1,0 +1,410 @@
+.promotions-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.promotions-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.promotions-header h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 36px;
+  color: #00FFEA;
+  margin-bottom: 10px;
+  text-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
+}
+
+.promotions-header p {
+  font-size: 18px;
+  color: #E0E0E0;
+}
+
+/* Featured Promotion */
+.featured-promotion {
+  display: flex;
+  background-color: #1E1E1E;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  margin-bottom: 50px;
+  border: 1px solid #333;
+}
+
+.featured-content {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.featured-content h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  color: #CCC;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.featured-content h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 28px;
+  color: #00FFEA;
+  margin-bottom: 15px;
+  text-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
+}
+
+.featured-content p {
+  color: #E0E0E0;
+  line-height: 1.6;
+  margin-bottom: 15px;
+}
+
+.promo-code {
+  font-size: 16px;
+  color: #E0E0E0;
+  margin: 15px 0;
+}
+
+.promo-code span {
+  font-family: 'Orbitron', sans-serif;
+  color: #00FFEA;
+  font-weight: bold;
+  padding: 5px 10px;
+  background-color: #2A2A2A;
+  border-radius: 5px;
+  margin-left: 5px;
+  border: 1px dashed #00FFEA;
+}
+
+.shop-now-btn {
+  align-self: flex-start;
+  display: inline-block;
+  background-color: transparent;
+  border: 2px solid #00FFEA;
+  color: #00FFEA;
+  padding: 10px 25px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  margin-top: 15px;
+}
+
+.shop-now-btn:hover {
+  background-color: #00FFEA;
+  color: #121212;
+  box-shadow: 0 0 15px rgba(0, 255, 234, 0.5);
+}
+
+.featured-image {
+  flex: 1;
+  max-width: 50%;
+}
+
+.featured-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Tabs */
+.promotions-tabs {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.tab-button {
+  padding: 12px 20px;
+  background-color: #1E1E1E;
+  color: #E0E0E0;
+  border: 1px solid #333;
+  margin: 0 5px;
+  cursor: pointer;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.tab-button.active {
+  background-color: transparent;
+  border-color: #00FFEA;
+  color: #00FFEA;
+  box-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
+}
+
+.tab-button:hover {
+  background-color: #2A2A2A;
+}
+
+/* Promotions Grid */
+.promotions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+.promo-card {
+  background-color: #1E1E1E;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid #333;
+}
+
+.promo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3), 0 0 15px rgba(0, 255, 234, 0.2);
+}
+
+.promo-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.promo-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s;
+}
+
+.promo-card:hover .promo-image img {
+  transform: scale(1.05);
+}
+
+.promo-content {
+  padding: 20px;
+}
+
+.promo-content h4 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  color: #00FFEA;
+  margin-bottom: 10px;
+  text-shadow: 0 0 5px rgba(0, 255, 234, 0.3);
+}
+
+.promo-content p {
+  color: #E0E0E0;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.promo-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 20px;
+  background-color: #2A2A2A;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+.promo-code-box, .promo-expiry {
+  display: flex;
+  flex-direction: column;
+}
+
+.promo-code-box span, .promo-expiry span {
+  font-size: 12px;
+  color: #CCC;
+  margin-bottom: 5px;
+}
+
+.promo-code-box strong, .promo-expiry strong {
+  font-family: 'Orbitron', sans-serif;
+  color: #00FFEA;
+  font-size: 14px;
+}
+
+.use-promo-btn {
+  display: block;
+  text-align: center;
+  background-color: transparent;
+  border: 2px solid #00FFEA;
+  color: #00FFEA;
+  padding: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.use-promo-btn:hover {
+  background-color: #00FFEA;
+  color: #121212;
+  box-shadow: 0 0 10px rgba(0, 255, 234, 0.3);
+}
+
+/* Newsletter Signup */
+.newsletter-signup {
+  background-color: #1E1E1E;
+  padding: 40px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+  border: 1px solid #333;
+}
+
+.newsletter-signup h3 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 24px;
+  color: #00FFEA;
+  margin-bottom: 15px;
+  text-shadow: 0 0 5px rgba(0, 255, 234, 0.3);
+}
+
+.newsletter-signup p {
+  color: #E0E0E0;
+  max-width: 600px;
+  margin: 0 auto 20px;
+}
+
+.newsletter-form {
+  display: flex;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.newsletter-form input {
+  flex: 1;
+  padding: 12px 15px;
+  background-color: #2A2A2A;
+  border: 1px solid #444;
+  border-radius: 5px 0 0 5px;
+  color: #E0E0E0;
+  outline: none;
+}
+
+.newsletter-form button {
+  padding: 12px 25px;
+  background-color: #00FFEA;
+  border: none;
+  border-radius: 0 5px 5px 0;
+  color: #121212;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.newsletter-form button:hover {
+  background-color: #00E0D1;
+  box-shadow: 0 0 10px rgba(0, 255, 234, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .featured-promotion {
+    flex-direction: column;
+  }
+  
+  .featured-image {
+    max-width: 100%;
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .promotions-tabs {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .tab-button {
+    margin: 5px 0;
+    width: 100%;
+    max-width: 300px;
+  }
+  
+  .promotions-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .newsletter-form {
+    flex-direction: column;
+  }
+  
+  .newsletter-form input {
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .newsletter-form button {
+    border-radius: 5px;
+  }
+}
+
+/* Cyberpunk decorative elements */
+.cyber-circuit {
+  position: absolute;
+  background-image: linear-gradient(135deg, rgba(0, 225, 255, 0.05) 25%, transparent 25%, transparent 50%, rgba(0, 225, 255, 0.05) 50%, rgba(0, 225, 255, 0.05) 75%, transparent 75%, transparent);
+  background-size: 40px 40px;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.cyber-circuit.top-left {
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 300px;
+  transform: rotate(-15deg);
+}
+
+.cyber-circuit.bottom-right {
+  bottom: 0;
+  right: 0;
+  width: 400px;
+  height: 400px;
+  transform: rotate(15deg);
+}
+
+.cyber-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #00FFEA;
+  box-shadow: 0 0 15px #00FFEA;
+  animation: pulse 3s infinite alternate;
+  z-index: -1;
+}
+
+.cyber-dot.dot1 {
+  top: 20%;
+  right: 5%;
+  animation-delay: 0.5s;
+}
+
+.cyber-dot.dot2 {
+  bottom: 30%;
+  left: 8%;
+  animation-delay: 1.5s;
+}
+
+.cyber-dot.dot3 {
+  top: 50%;
+  right: 20%;
+  animation-delay: 1s;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.3; }
+  100% { transform: scale(1.2); opacity: 0.7; }
+} 

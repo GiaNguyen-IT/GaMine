@@ -1,0 +1,207 @@
+-- Tạo bảng Admin (Quản trị viên)
+CREATE TABLE Admin (
+    admin_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    role VARCHAR(50) NOT NULL DEFAULT 'Admin',  -- Vai trò của quản trị viên (Super Admin, Admin, etc.)
+    email VARCHAR(100) NOT NULL UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Permissions cho phép admin có quyền quản lý từng bảng
+CREATE TABLE Permissions (
+    permission_id SERIAL PRIMARY KEY,
+    admin_id INT REFERENCES Admin(admin_id) ON DELETE CASCADE,
+    table_name VARCHAR(100) NOT NULL,  -- Lưu tên bảng mà quyền được áp dụng
+    can_create BOOLEAN DEFAULT TRUE,
+    can_read BOOLEAN DEFAULT TRUE,
+    can_update BOOLEAN DEFAULT TRUE,
+    can_delete BOOLEAN DEFAULT TRUE,
+    UNIQUE (admin_id, table_name) -- Đảm bảo mỗi admin chỉ có một quyền trên một bảng
+);
+
+-- Nhật ký thao tác của Admin
+CREATE TABLE AuditLog (
+    log_id SERIAL PRIMARY KEY,
+    admin_id INT REFERENCES Admin(admin_id),
+    action TEXT NOT NULL,
+    table_name VARCHAR(100),
+    record_id INT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Users (Thông tin người dùng)
+CREATE TABLE Users (
+    user_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone VARCHAR(20),
+    address TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE UserActivityLog (
+    log_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id) ON DELETE CASCADE,
+    action TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Categories (Danh mục sản phẩm)
+CREATE TABLE Categories (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT
+);
+
+-- Bảng sản phẩm
+CREATE TABLE Products (
+    product_id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock_quantity INT NOT NULL,
+    sold_quantity INT DEFAULT 0, 
+    category_id INT REFERENCES Categories(category_id) ON DELETE CASCADE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bảng chứa nhiều hình ảnh cho mỗi sản phẩm
+CREATE TABLE ProductImages (
+    image_id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES Products(product_id) ON DELETE CASCADE,
+    image_url TEXT NOT NULL,
+    is_primary BOOLEAN DEFAULT FALSE  
+);
+
+-- Bảng chi tiết sản phẩm
+CREATE TABLE ProductDetails (
+    product_detail_id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES Products(product_id) ON DELETE CASCADE,
+    specification TEXT
+);
+
+-- Tạo bảng Promotions (Khuyến mãi)
+CREATE TABLE Promotions (
+    promotion_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    discount_percentage INT CHECK (discount_percentage >= 0 AND discount_percentage <= 100),
+    start_date TIMESTAMP,
+    end_date TIMESTAMP,
+    img_banner TEXT 
+);
+
+CREATE TABLE ProductPromotions (
+    product_promotion_id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES Products(product_id) ON DELETE CASCADE,
+    promotion_id INT REFERENCES Promotions(promotion_id) ON DELETE CASCADE
+    category_id
+);
+
+-- Tạo bảng Reviews (Đánh giá của khách hàng)
+CREATE TABLE Reviews (
+    review_id SERIAL PRIMARY KEY,
+    product_id INT REFERENCES Products(product_id),
+    user_id INT REFERENCES Users(user_id),
+    rating INT CHECK (rating >= 1 AND rating <= 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Cart (Giỏ hàng của người dùng)
+CREATE TABLE Cart (
+    cart_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id),
+    product_id INT REFERENCES Products(product_id),
+    quantity INT NOT NULL,
+    order_id INT REFERENCES Orders(order_id) ON DELETE SET NULL, -- Theo dõi khi giỏ hàng trở thành đơn hàng
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo kiểu ENUM cho trạng thái đơn hàng
+CREATE TYPE order_status_enum AS ENUM ('Pending', 'Processing', 'In transit', 'Completed');
+
+CREATE TABLE Orders (
+    order_id SERIAL PRIMARY KEY,
+    user_id INT REFERENCES Users(user_id),
+    total_amount DECIMAL(10, 2) NOT NULL,
+    order_status order_status_enum DEFAULT 'Pending',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE OrderDetails (
+    order_detail_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES Orders(order_id) ON DELETE CASCADE,
+    product_id INT REFERENCES Products(product_id) ON DELETE CASCADE,
+    quantity INT NOT NULL,
+    price DECIMAL(10,2) NOT NULL
+);
+
+CREATE TABLE Payments (
+    payment_id SERIAL PRIMARY KEY,
+    order_id INT REFERENCES Orders(order_id) ON DELETE CASCADE,
+    payment_method VARCHAR(50) NOT NULL,
+    payment_status VARCHAR(50) DEFAULT 'Pending',
+    transaction_id VARCHAR(255) UNIQUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bảng Blog (Bài viết tin tức)
+CREATE TABLE Blog (
+    blog_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Bảng BlogImages (Lưu trữ nhiều hình ảnh cho mỗi bài viết)
+CREATE TABLE BlogImages (
+    image_id SERIAL PRIMARY KEY,
+    blog_id INT REFERENCES Blog(blog_id) ON DELETE CASCADE, 
+    image_url TEXT NOT NULL, 
+    is_primary BOOLEAN DEFAULT FALSE  
+);
+
+-- Tạo bảng Careers (Thông tin tuyển dụng)
+CREATE TABLE Careers (
+    job_id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    requirements TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Contact (Thông tin liên hệ)
+CREATE TABLE Contact (
+    contact_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    message TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng Faq (Câu hỏi thường gặp)
+CREATE TABLE Faq (
+    faq_id SERIAL PRIMARY KEY,
+    question TEXT NOT NULL,
+    answer TEXT NOT NULL
+);
+
+-- Tạo bảng TermsAndConditions (Điều khoản)
+CREATE TABLE TermsAndConditions (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tạo bảng PrivacyPolicy (Chính sách bảo mật)
+CREATE TABLE PrivacyPolicy (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL, 
+    content TEXT NOT NULL,      
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP  
+);
